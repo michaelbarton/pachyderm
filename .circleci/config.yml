@@ -30,7 +30,7 @@ jobs:
     parameters:
       bucket:
         type: string
-    resource_class: xlarge
+    resource_class: 2xlarge
     machine:
       image: << pipeline.parameters.machine_image >>
     environment:
@@ -198,7 +198,7 @@ jobs:
       - run: etc/testing/circle/install.sh
       - run: etc/testing/circle/rootless_test.sh
   deploy:
-    resource_class: xlarge
+    resource_class: 2xlarge
     machine:
       image: << pipeline.parameters.machine_image >>
     steps:
