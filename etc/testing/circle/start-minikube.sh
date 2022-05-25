@@ -12,6 +12,7 @@ minikube_args=(
   "--cpus=7"
   "--memory=12Gi"
   "--wait=all"
+  "--network=host"
 )
 while getopts ":v" opt; do
   case "${opt}" in
