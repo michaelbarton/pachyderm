@@ -43,15 +43,15 @@ jobs:
           name: Collect node stats
           command: sar 10 -BbdHwzS -I SUM -n DEV -q -r ALL -u ALL -h
           background: true
-      - restore_cache:
-          keys:
-            - pach-build-dependencies-v2-{{ checksum "etc/testing/circle/install.sh" }}
-            - pach-build-dependencies-v2-
+      # - restore_cache:
+      #     keys:
+      #       - pach-build-dependencies-v2-{{ checksum "etc/testing/circle/install.sh" }}
+      #       - pach-build-dependencies-v2-
       - run: etc/testing/circle/install.sh
-      - save_cache:
-          key: pach-build-dependencies-v2-{{ checksum "etc/testing/circle/install.sh" }}
-          paths:
-            - cached-deps/
+      # - save_cache:
+      #     key: pach-build-dependencies-v2-{{ checksum "etc/testing/circle/install.sh" }}
+      #     paths:
+      #       - cached-deps/
       - run:
           name: Start minikube
           command: etc/testing/circle/start-minikube.sh
@@ -59,29 +59,29 @@ jobs:
       # The build cache will grow indefinitely, so we rotate the cache once a week.
       # This ensures the time to restore the cache isn't longer than the speedup in compilation.
       - run: "echo $(($(date +%s)/604800)) > current_week"
-      - restore_cache:
-          keys:
-            - pach-go-build-cache-v1-{{ .Branch }}-{{ checksum "current_week" }}
-            - pach-go-build-cache-v1-master-{{ checksum "current_week" }}
+      # - restore_cache:
+      #     keys:
+      #       - pach-go-build-cache-v1-{{ .Branch }}-{{ checksum "current_week" }}
+      #       - pach-go-build-cache-v1-master-{{ checksum "current_week" }}
 
       # Only restore the module cache based on an exact match for go.sum.
       # This also avoids accumulating old versions of modules over time.
-      - restore_cache:
-          keys:
-            - pach-go-mod-cache-v2-{{ checksum "go.sum" }}
+      # - restore_cache:
+      #     keys:
+      #       - pach-go-mod-cache-v2-{{ checksum "go.sum" }}
       - run: etc/testing/circle/build.sh
-      - when: #Save cache in only one bucket, after build and before running tests, this ensures build cache is saved even when tests fail
-          condition:
-            equal: [MISC, <<parameters.bucket>>]
-          steps:
-            - save_cache:
-                key: pach-go-mod-cache-v2-{{ checksum "go.sum" }}
-                paths:
-                  - /home/circleci/.go_workspace/pkg/mod
-            - save_cache:
-                key: pach-go-build-cache-v1-{{ .Branch }}-{{ checksum "current_week" }}
-                paths:
-                  - /home/circleci/.gocache
+      # - when: #Save cache in only one bucket, after build and before running tests, this ensures build cache is saved even when tests fail
+      #     condition:
+      #       equal: [MISC, <<parameters.bucket>>]
+      #     steps:
+      #       - save_cache:
+      #           key: pach-go-mod-cache-v2-{{ checksum "go.sum" }}
+      #           paths:
+      #             - /home/circleci/.go_workspace/pkg/mod
+      #       - save_cache:
+      #           key: pach-go-build-cache-v1-{{ .Branch }}-{{ checksum "current_week" }}
+      #           paths:
+      #             - /home/circleci/.gocache
       - run: etc/testing/circle/wait-minikube.sh
       - run:
           name: Collect kube events
