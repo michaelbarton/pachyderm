@@ -12,7 +12,6 @@ minikube_args=(
   "--cpus=7"
   "--memory=12Gi"
   "--wait=all"
-  "--extra-config=kubeadm.maxPerCore=0"
 )
 while getopts ":v" opt; do
   case "${opt}" in
