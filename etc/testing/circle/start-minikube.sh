@@ -5,14 +5,13 @@ set -Eex
 export PATH="${PWD}:${PWD}/cached-deps:${GOPATH}/bin:${PATH}"
 
 # Parse flags
-VERSION=v1.19.0
+VERSION=v1.21.0
 minikube_args=(
   "--vm-driver=docker"
   "--kubernetes-version=${VERSION}"
   "--cpus=7"
   "--memory=12Gi"
   "--wait=all"
-  "--network=host"
 )
 while getopts ":v" opt; do
   case "${opt}" in
