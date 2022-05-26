@@ -1229,7 +1229,7 @@ $ {{alias}} 'foo@master:/test\[\].txt'`,
 			// TODO: Decide what progress should look like in the recursive case. The files are downloaded in a batch in 2.x.
 			if recursive {
 				if outputPath == "" {
-					return errors.Errorf("an output path needs to be specified when using the --recursive flag")
+					return errors.Errorf("an output path needs to be specified with the --output flag when using the --recursive flag")
 				}
 				// Check that the path matches one directory / file.
 				fi, err := c.InspectFile(file.Commit, file.Path)
