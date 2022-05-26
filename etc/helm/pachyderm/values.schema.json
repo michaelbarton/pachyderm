@@ -567,6 +567,9 @@
                 "localhostIssuer": {
                     "type": "string"
                 },
+                "logFormat": {
+                    "type": "string"
+                },
                 "logLevel": {
                     "type": "string"
                 },
